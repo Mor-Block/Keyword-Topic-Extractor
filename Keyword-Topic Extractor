@@ -30,7 +30,7 @@ with open("pdf.pdf", "rb") as file:
   # Extract the text from the PDF
   text = ""
   for page in pdf_reader.pages: # Comment out if not using PDF
-    text += page.extractText()
+    text += page.extractText()  #
 
 # Extract x keywords and y topics from the text
 extract_keywords_and_topics(text, x, y)
