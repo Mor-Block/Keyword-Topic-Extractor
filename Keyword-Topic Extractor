@@ -1,0 +1,36 @@
+import nltk
+import PyPDF2
+
+# Extracts keywords and topics from a text document
+def extract_keywords_and_topics(text, num_keywords, num_topics):
+  # Tokenize the text
+  tokens = nltk.word_tokenize(text)
+
+  # Remove stopwords
+  stopwords = nltk.corpus.stopwords.words("english")
+  filtered_tokens = [token for token in tokens if token not in stopwords]
+
+  # Extract keywords using term frequency-inverse document frequency (TF-IDF)
+  tfidf_vectorizer = nltk.TfidfVectorizer()
+  tfidf_matrix = tfidf_vectorizer.fit_transform(filtered_tokens)
+  feature_names = tfidf_vectorizer.get_feature_names()
+  top_keywords = sorted(zip(tfidf_matrix.data, feature_names), reverse=True)[:num_keywords]
+  print(f"Top {num_keywords} keywords:", top_keywords)
+
+  # Extract topics using Latent Dirichlet Allocation (LDA)
+  lda_model = nltk.LdaModel(tfidf_matrix, num_topics=num_topics)
+  top_topics = lda_model.print_topics(num_topics=num_topics, num_words=3)
+  print(f"Top {num_topics} topics:", top_topics)
+
+# Open the PDF file
+with open("pdf.pdf", "rb") as file:
+  # Create a PDF reader object
+  pdf_reader = PyPDF2.PdfFileReader(file)
+
+  # Extract the text from the PDF
+  text = ""
+  for page in pdf_reader.pages:
+    text += page.extractText()
+
+# Extract x keywords and y topics from the text
+extract_keywords_and_topics(text, x, y)
