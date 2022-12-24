@@ -22,14 +22,14 @@ def extract_keywords_and_topics(text, num_keywords, num_topics):
   top_topics = lda_model.print_topics(num_topics=num_topics, num_words=3)
   print(f"Top {num_topics} topics:", top_topics)
 
-# Open the PDF file
+# Open the PDF file (comment out if text doc)
 with open("pdf.pdf", "rb") as file:
   # Create a PDF reader object
   pdf_reader = PyPDF2.PdfFileReader(file)
 
   # Extract the text from the PDF
   text = ""
-  for page in pdf_reader.pages:
+  for page in pdf_reader.pages: # Comment out if not using PDF
     text += page.extractText()
 
 # Extract x keywords and y topics from the text
